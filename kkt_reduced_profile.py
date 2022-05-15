@@ -25,14 +25,14 @@ def profile_spmv(mat_csc, iter_steps, device):
 	for i in range(iter_steps):
 		x_tensor = torch.rand(N, 1, dtype=torch.float32, device=device)
 		x_batch.append(x_tensor)
-
-    torch.cuda.synchronize()
+	
+	torch.cuda.synchronize()
 	tic = time.perf_counter()
 
 	for i in range(iter_steps):
 		result = torch.sparse.mm(torch_csr, x_batch[i])
 
-    torch.cuda.synchronize()
+	torch.cuda.synchronize()
 	toc = time.perf_counter()
 
 	return toc - tic
