@@ -26,13 +26,13 @@ def profile_spmv(mat_csc, iter_steps, device):
 		x_tensor = torch.rand(N, 1, dtype=torch.float32, device=device)
 		x_batch.append(x_tensor)
 
-	# torch.cuda.synchronize()
+    torch.cuda.synchronize()
 	tic = time.perf_counter()
 
 	for i in range(iter_steps):
 		result = torch.sparse.mm(torch_csr, x_batch[i])
 
-	# torch.cuda.synchronize()
+    torch.cuda.synchronize()
 	toc = time.perf_counter()
 
 	return toc - tic
@@ -67,7 +67,7 @@ def main():
 				len(mat_csc.data)*100.0/(mat_csc.shape[0]*mat_csc.shape[1]),
 				len(mat_csc.data),
 				device,
-				iter_steps, 
+				iter_steps,
 				run_time * 1000]]
 
 	print(tabulate(mat_info, headers=["shape", "density", "nnz", "device", "iter", "time(ms)"]))
